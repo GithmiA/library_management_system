@@ -1,5 +1,6 @@
 package util;
 
+import entity.Book;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -10,10 +11,11 @@ public class Hibernateutil {
     static {
         try {
             Configuration configuration = new Configuration()
-                    .setProperty("hibernate.connection.url","jdbc.mysql://localhost:3306/hibernate_demo?createDatabaseIfNotExist=true")
+                    .setProperty("hibernate.connection.url","jdbc:mysql://localhost:3306/librarydb?createDatabaseIfNotExist=true")
                     .setProperty("hibernate.connection.username","root")
                     .setProperty("hibernate.connection.password","12345")
-                    .setProperty("hibernate.hbm2ddl.auto","update");
+                    .setProperty("hibernate.hbm2ddl.auto","update")
+                    .addAnnotatedClass(Book.class);
             sessionFactory = configuration.buildSessionFactory();
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);
