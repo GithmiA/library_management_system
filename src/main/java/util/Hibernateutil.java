@@ -1,6 +1,7 @@
 package util;
 
 import entity.Book;
+import entity.Member;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -15,7 +16,9 @@ public class Hibernateutil {
                     .setProperty("hibernate.connection.username","root")
                     .setProperty("hibernate.connection.password","12345")
                     .setProperty("hibernate.hbm2ddl.auto","update")
-                    .addAnnotatedClass(Book.class);
+                    .addAnnotatedClass(Book.class)
+                    .addAnnotatedClass(Member.class);
+
             sessionFactory = configuration.buildSessionFactory();
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);

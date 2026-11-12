@@ -26,6 +26,13 @@ public class Maindashboardpagecontroller {
     }
 
     public void addMemberOnActoin(ActionEvent event) {
+        Stage stage=(Stage)((Node) event.getSource()).getScene().getWindow();
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/addmember_page.fxml"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.show();
     }
 
     public void manageMemberOnAction(ActionEvent event) {
