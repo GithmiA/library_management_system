@@ -10,6 +10,7 @@ public class BorrowingDTO {
     private String dueDate;
     private String returnDate;
     private String status;
+    private String phonenumber;
 
     public BorrowingDTO() {
 
@@ -80,4 +81,11 @@ public class BorrowingDTO {
         return returnDate;
     }
 
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
 }

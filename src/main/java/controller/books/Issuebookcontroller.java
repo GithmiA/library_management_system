@@ -2,6 +2,7 @@ package controller.books;
 
 import entity.Book;
 import entity.Borrowing;
+import entity.Member;
 import model.BookDTO;
 import model.BorrowingDTO;
 import model.MemberDTO;
@@ -67,6 +68,22 @@ public class Issuebookcontroller {
 
     }
 
-    public void getAllMembers() {
+    public List<MemberDTO> getAllMembers() {
+
+        Session session = Hibernateutil.getSessionFactory().openSession();
+
+        List<Member> members = session.createQuery("FROM Member",Member.class).getResultList();
+
+        List<MemberDTO> memberDTOList = new ArrayList<>();
+
+        for (Member member : members) {
+            MemberDTO memberDTO = new MemberDTO();
+
+            memberDTO.setMemberId(member.getMemberId());
+            memberDTO.setFullName(member.getFullName());
+
+            memberDTOList.add(memberDTO);
+        }
+        return memberDTOList;
     }
 }

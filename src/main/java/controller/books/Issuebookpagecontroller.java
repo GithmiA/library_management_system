@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -59,6 +60,11 @@ public class Issuebookpagecontroller {
             borrowingDTO.setStatus("Borrowed");
 
             issuebookcontroller.issueBook(borrowingDTO);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("Book issued Successfully!");
+            alert.showAndWait();
         }
         clearFields();
     }
@@ -91,10 +97,10 @@ public class Issuebookpagecontroller {
     @FXML
     public void initialize(){
         Collection<BookDTO> books = issuebookcontroller.getAllBooks();
-        //List<MemberDTO> members = issuebookcontroller.getAllMembers();
+        List<MemberDTO> members = issuebookcontroller.getAllMembers();
 
         txtSelectBook.setItems(FXCollections.observableArrayList(books));
-        //txtSelectMemeber.getItems().addAll(members);
+        txtSelectMemeber.setItems(FXCollections.observableArrayList(members));
     }
 
 }
