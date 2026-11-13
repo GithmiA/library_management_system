@@ -1,5 +1,7 @@
 package controller.books;
 
+import entity.Book;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,8 @@ import model.BorrowingDTO;
 import model.MemberDTO;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 public class Issuebookpagecontroller {
 
@@ -51,10 +55,18 @@ public class Issuebookpagecontroller {
             borrowingDTO.setBookTitle(txtSelectBook.getValue().getBookTitle());
             borrowingDTO.setIssueDate(txtIssueBook.getValue().toString());
             borrowingDTO.setDueDate(txtDueDate.getValue().toString());
+            borrowingDTO.setReturnDate(" - ");
+            borrowingDTO.setStatus("Borrowed");
 
             issuebookcontroller.issueBook(borrowingDTO);
-
         }
+        clearFields();
+    }
+    private void clearFields() {
+        txtSelectBook.getSelectionModel().clearSelection();
+        txtSelectMemeber.getSelectionModel().clearSelection();
+        txtIssueBook.setValue(null);
+        txtDueDate.setValue(null);
     }
 
     public void clearOnAction(ActionEvent event) {
@@ -75,6 +87,14 @@ public class Issuebookpagecontroller {
             throw new RuntimeException(e);
         }
         stage.show();
+    }
+    @FXML
+    public void initialize(){
+        Collection<BookDTO> books = issuebookcontroller.getAllBooks();
+        //List<MemberDTO> members = issuebookcontroller.getAllMembers();
+
+        txtSelectBook.setItems(FXCollections.observableArrayList(books));
+        //txtSelectMemeber.getItems().addAll(members);
     }
 
 }
