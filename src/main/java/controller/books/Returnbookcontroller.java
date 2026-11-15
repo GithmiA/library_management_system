@@ -24,7 +24,6 @@ public class Returnbookcontroller {
             Borrowing borrowing = session.createQuery(HQL,Borrowing.class)
                     .setParameter("id",bookId)
                     .setParameter("returndate"," - ")
-                    //.setMaxResults(1)
                     .uniqueResult();
             if (borrowing != null) {
                 if (LocalDate.parse(borrowing.getDueDate()).isBefore(today)) {

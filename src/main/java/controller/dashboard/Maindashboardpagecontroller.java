@@ -36,6 +36,13 @@ public class Maindashboardpagecontroller {
     }
 
     public void manageMemberOnAction(ActionEvent event) {
+        Stage stage=(Stage)((Node) event.getSource()).getScene().getWindow();
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/managemember_page.fxml"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.show();
     }
 
     public void issueBookOnAction(ActionEvent event) {
