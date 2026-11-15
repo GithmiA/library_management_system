@@ -27,6 +27,7 @@ public class Borrowinghistorycontroller {
 
             for(Borrowing borrowing : borrowings) {
                 BorrowingDTO borrowingDTO = new BorrowingDTO();
+
                 borrowingDTO.setMemberId(borrowing.getMemberId());
                 borrowingDTO.setBookTitle(borrowing.getBookTitle());
                 borrowingDTO.setIssueDate(borrowing.getIssueDate());
@@ -43,6 +44,37 @@ public class Borrowinghistorycontroller {
         }
     }
 
-//    public ObservableList<BorrowingDTO> searchData(String searchId) {
-//    }
+    public ObservableList<BorrowingDTO> searchData(String searchId) {
+
+        Session session = Hibernateutil.getSessionFactory().openSession();
+
+        ObservableList<BorrowingDTO> borrowingList = FXCollections.observableArrayList();
+
+        String HQL = "FROM Borrowing b WHERE b.memberId = : memberid";
+
+        try {
+            List <Borrowing> borrowings = session.createQuery(HQL, Borrowing.class)
+                    .setParameter("memberid",searchId)
+                    .getResultList();
+
+            for (Borrowing borrowing : borrowings) {
+                BorrowingDTO borrowingDTO = new BorrowingDTO();
+
+                borrowingDTO.setMemberId(borrowing.getMemberId());
+                borrowingDTO.setBookTitle(borrowing.getBookTitle());
+                borrowingDTO.setIssueDate(borrowing.getIssueDate());
+                borrowingDTO.setDueDate(borrowing.getDueDate());
+                borrowingDTO.setReturnDate(borrowing.getReturnDate());
+                borrowingDTO.setStatus(borrowing.getStatus());
+
+                borrowingList.add(borrowingDTO);
+            }
+            return borrowingList;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
 }

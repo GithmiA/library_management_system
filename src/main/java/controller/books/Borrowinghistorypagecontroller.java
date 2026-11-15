@@ -61,7 +61,7 @@ public class Borrowinghistorypagecontroller {
         tblTableView.getItems().clear();
         String searchId = txtSearchById.getText().trim();
 
-        //tblTableView.setItems(borrowinghistorycontroller.searchData(searchId));
+        tblTableView.setItems(borrowinghistorycontroller.searchData(searchId));
 
     }
 

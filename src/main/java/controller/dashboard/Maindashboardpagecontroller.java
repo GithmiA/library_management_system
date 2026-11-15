@@ -1,15 +1,44 @@
 package controller.dashboard;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class Maindashboardpagecontroller {
-    
+
+    @FXML
+    private Label lblTotalBook;
+
+    @FXML
+    private Label lblTotalMembers;
+
+    @FXML
+    private Label lblCurrentlyBorrowing;
+
+    @FXML
+    private Label lblOverdueBooks;
+
+    Dashboardcontroller dashboardcontroller = new Dashboardcontroller();
+
+
+    @FXML
+    public void initialize() {
+
+          lblTotalBook.setText(String.valueOf(dashboardcontroller.countBooks()));
+          lblTotalMembers.setText(String.valueOf(dashboardcontroller.countMembers()));
+          lblCurrentlyBorrowing.setText(String.valueOf(dashboardcontroller.countCurrentlyBorrowing()));
+          lblOverdueBooks.setText(String.valueOf(dashboardcontroller.countOverdueBooks()));
+
+    }
+
+
     public void logoutOnAction(ActionEvent event) {
         
     }
