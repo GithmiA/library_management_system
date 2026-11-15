@@ -146,6 +146,7 @@ public class Managememberpagecontroller {
                             }
                         }
                     }catch (RuntimeException e) {
+                        e.printStackTrace();
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Database Error");
                         alert.setHeaderText("Delete Failed");

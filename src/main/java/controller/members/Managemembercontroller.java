@@ -1,6 +1,7 @@
 package controller.members;
 
 import entity.Book;
+import entity.Borrowing;
 import entity.Member;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,18 +21,18 @@ public class Managemembercontroller {
         ObservableList<MemberDTO> members = FXCollections.observableArrayList();
 
         try {
-            Member member = session.createQuery("FROM Member", Member.class).uniqueResult();
+           List <Member> memberList = session.createQuery("FROM Member", Member.class).getResultList();
 
-            if (member != null) {
-                MemberDTO memberDTO = new MemberDTO();
+                for(Member member : memberList) {
+                    MemberDTO memberDTO = new MemberDTO();
 
-                memberDTO.setMemberId(member.getMemberId());
-                memberDTO.setFullName(member.getFullName());
-                memberDTO.setEmail(member.getEmail());
-                memberDTO.setPhoneNumber(member.getPhoneNumber());
+                    memberDTO.setMemberId(member.getMemberId());
+                    memberDTO.setFullName(member.getFullName());
+                    memberDTO.setEmail(member.getEmail());
+                    memberDTO.setPhoneNumber(member.getPhoneNumber());
 
-                members.add(memberDTO);
-            }
+                    members.add(memberDTO);
+                }
             return members;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -41,11 +42,43 @@ public class Managemembercontroller {
     }
 
     public boolean hasBorrowingRecords(MemberDTO member) {
-        return false;
+
+        Session session = Hibernateutil.getSessionFactory().openSession();
+
+        String HQL ="SELECT COUNT(b) FROM Borrowing b WHERE b.memberId = :member";
+
+        try {
+            Long count = session.createQuery(HQL, Long.class)
+                    .setParameter("member",member.getMemberId())
+                    .uniqueResult();
+            return count != null && count > 0;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to check borrowing records",e);
+        }
     }
 
     public boolean deleteMember(MemberDTO member) {
-        return false;
+
+        Session session = Hibernateutil.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+           Member member1 = session.createQuery("FROM Member m WHERE m.memberId = :memberid", Member.class)
+                    .setParameter("memberid",member.getMemberId())
+                    .uniqueResult();
+           if (member1 != null) {
+               session.remove(member1);
+               transaction.commit();
+               return true;
+           }
+           transaction.rollback();
+           return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            session.close();
+        }
     }
 
     public boolean updateMember(MemberDTO member) {
@@ -72,8 +105,6 @@ public class Managemembercontroller {
         } catch (Exception e) {
             throw new RuntimeException("Member Update failed!",e);
         }
-
-
 
     }
 }
