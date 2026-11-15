@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.BorrowingDTO;
@@ -73,7 +70,28 @@ public class Returnbookpagecontroller {
     }
 
     public void returnOnAction(ActionEvent event) {
+        
+      Boolean isReturned = returnbookcontroller.returnBook(dpReturnDate.getValue().toString(),txtSearchBox.getText());
+        if(isReturned != false) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("Book Returned Successfully!");
+            alert.showAndWait();
+        }
+        clearField();
 
+    }
+
+    private void clearField() {
+
+        lblMemberId.setText("");
+        lblFullName.setText("");
+        lblPhoneNumber.setText("");
+        lblBookTitle.setText("");
+        lblBorrowedDate.setText("");
+        lblDueDate.setText("");
+        lblStatus.setText("");
     }
 
     public void clearOnAction(ActionEvent event) {

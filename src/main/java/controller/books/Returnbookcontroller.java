@@ -5,7 +5,10 @@ import entity.Borrowing;
 import entity.Member;
 import model.BorrowingDTO;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import util.Hibernateutil;
+
+import java.time.LocalDate;
 
 public class Returnbookcontroller {
 
@@ -13,11 +16,13 @@ public class Returnbookcontroller {
 
         Session session = Hibernateutil.getSessionFactory().openSession();
 
+        String HQL = "FROM Borrowing b WHERE b.bookId = :id AND b.returnDate = :returndate";
+
         try {
-            Borrowing borrowing = session.createQuery("FROM Borrowing b WHERE b.book_id = :id" + "AND b.returndate = :returndate",Borrowing.class)
+            Borrowing borrowing = session.createQuery(HQL,Borrowing.class)
                     .setParameter("id",bookId)
                     .setParameter("returndate"," - ")
-                    .setMaxResults(1)
+                    //.setMaxResults(1)
                     .uniqueResult();
             if (borrowing != null) {
                 Member member = session.find(Member.class,borrowing.getMemberId());
@@ -38,6 +43,37 @@ public class Returnbookcontroller {
             return null;
         } catch (Exception e) {
             throw new RuntimeException("Book Saving failed",e);
+        } finally {
+            session.close();
+        }
+
+    }
+
+    public boolean returnBook(String returnDate, String bookId) {
+
+        Session session = Hibernateutil.getSessionFactory().openSession();
+
+        String HQL = "FROM Borrowing b WHERE b.bookId = :id AND b.returnDate = :returndate";
+
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            Borrowing borrowing = session.createQuery(HQL,Borrowing.class)
+                    .setParameter("id",bookId)
+                    .setParameter("returndate"," - ")
+                    //.setMaxResults(1)
+                    .uniqueResult();
+            if (borrowing != null) {
+                borrowing.setReturnDate(returnDate);
+                borrowing.setStatus("Returned");
+                transaction.commit();
+                return true;
+            }
+            transaction.rollback();
+
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException("Book return failed",e);
         } finally {
             session.close();
         }
