@@ -54,6 +54,10 @@ public class Managememberpagecontroller {
     }
 
     public void searchById(MouseEvent mouseEvent) {
+
+        String searchId = txtSearchById.getText().trim();
+
+        memberTable.setItems(managemembercontroller.searchDate(searchId));
     }
 
     @FXML
@@ -66,6 +70,15 @@ public class Managememberpagecontroller {
         updateMembers();
         setUpActionColumn();
         memberTable.setItems(managemembercontroller.loadTable());
+
+        txtSearchById.textProperty().addListener(
+                (observable,oldValue,newValue) -> {
+                    if (newValue == null || newValue.trim().isEmpty()) {
+                        memberTable.getItems().clear();
+                        memberTable.setItems(managemembercontroller.loadTable());
+                    }
+                }
+        );
 
     }
     private void updateMembers() {

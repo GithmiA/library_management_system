@@ -107,4 +107,36 @@ public class Managemembercontroller {
         }
 
     }
+
+    public ObservableList<MemberDTO> searchDate(String searchId) {
+
+        Session session = Hibernateutil.getSessionFactory().openSession();
+
+        String HQL = "FROM Member m WHERE m.memberId = :member";
+
+        ObservableList<MemberDTO> list = FXCollections.observableArrayList();
+
+        try {
+            List<Member> memberList = session.createQuery(HQL, Member.class)
+                    .setParameter("member",searchId)
+                    .getResultList();
+
+            for (Member member : memberList) {
+                MemberDTO memberDTO = new MemberDTO();
+
+                memberDTO.setMemberId(member.getMemberId());
+                memberDTO.setFullName(member.getFullName());
+                memberDTO.setEmail(member.getEmail());
+                memberDTO.setPhoneNumber(member.getPhoneNumber());
+
+                list.add(memberDTO);
+            }
+
+           return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
 }
