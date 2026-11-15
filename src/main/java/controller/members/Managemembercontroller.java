@@ -48,13 +48,30 @@ public class Managemembercontroller {
         return false;
     }
 
-    public void updateMember(MemberDTO member) {
+    public boolean updateMember(MemberDTO member) {
 
         Session session = Hibernateutil.getSessionFactory().openSession();
 
-        String HQL = "FROM Member m WHERE m. ";
+        String HQL = "FROM Member m WHERE m.memberId = :member";
 
         Transaction transaction = session.beginTransaction();
+
+        try {
+          Member member1 = session.createQuery(HQL, Member.class)
+                    .setParameter("member",member.getMemberId())
+                    .uniqueResult();
+          if (member1 != null) {
+              member1.setFullName(member.getFullName());
+              member1.setEmail(member.getEmail());
+              member1.setPhoneNumber(member1.getPhoneNumber());
+              transaction.commit();
+              return true;
+          }
+          transaction.rollback();
+          return false;
+        } catch (Exception e) {
+            throw new RuntimeException("Member Update failed!",e);
+        }
 
 
 

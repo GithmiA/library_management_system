@@ -72,17 +72,38 @@ public class Managememberpagecontroller {
         nameColumn.setOnEditCommit(event -> {
             MemberDTO member = event.getRowValue();
             member.setFullName(event.getNewValue());
-            managemembercontroller.updateMember(member);
+            Boolean isUpdate = managemembercontroller.updateMember(member);
+            if (isUpdate != null) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("Member Update Successfully!");
+                alert.showAndWait();
+            }
         });
         emailColumn.setOnEditCommit(event ->{
             MemberDTO member = event.getRowValue();
             member.setEmail(event.getNewValue());
-            managemembercontroller.updateMember(member);
+            Boolean isUpdate = managemembercontroller.updateMember(member);
+            if (isUpdate != null) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("Member Update Successfully!");
+                alert.showAndWait();
+            }
         });
         phonenumberColumn.setOnEditCommit(event ->{
             MemberDTO member = event.getRowValue();
             member.setPhoneNumber(event.getNewValue());
-            managemembercontroller.updateMember(member);
+            Boolean isUpdate = managemembercontroller.updateMember(member);
+            if (isUpdate != null) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("Member Update Successfully!");
+                alert.showAndWait();
+            }
         });
     }
 
