@@ -13,10 +13,12 @@ import java.time.LocalDate;
 public class Returnbookcontroller {
 
     public BorrowingDTO load(String bookId) {
+        LocalDate today = LocalDate.now();
 
         Session session = Hibernateutil.getSessionFactory().openSession();
 
         String HQL = "FROM Borrowing b WHERE b.bookId = :id AND b.returnDate = :returndate";
+        Transaction transaction = session.beginTransaction();
 
         try {
             Borrowing borrowing = session.createQuery(HQL,Borrowing.class)
@@ -25,6 +27,11 @@ public class Returnbookcontroller {
                     //.setMaxResults(1)
                     .uniqueResult();
             if (borrowing != null) {
+                if (LocalDate.parse(borrowing.getDueDate()).isBefore(today)) {
+                    borrowing.setStatus("Overdue");
+                    transaction.commit();
+
+                }
                 Member member = session.find(Member.class,borrowing.getMemberId());
                     if(member != null) {
                         BorrowingDTO borrowingDTO = new BorrowingDTO();
