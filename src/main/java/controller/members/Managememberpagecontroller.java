@@ -5,13 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import model.MemberDTO;
 
@@ -64,14 +63,85 @@ public class Managememberpagecontroller {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         phonenumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 
-        memberTable.setItems(managemembercontroller.loadTable());
+        updateMembers();
         setUpActionColumn();
+        memberTable.setItems(managemembercontroller.loadTable());
 
-
+    }
+    private void updateMembers() {
+        nameColumn.setOnEditCommit(event -> {
+            MemberDTO member = event.getRowValue();
+            member.setFullName(event.getNewValue());
+            managemembercontroller.updateMember(member);
+        });
+        emailColumn.setOnEditCommit(event ->{
+            MemberDTO member = event.getRowValue();
+            member.setEmail(event.getNewValue());
+            managemembercontroller.updateMember(member);
+        });
+        phonenumberColumn.setOnEditCommit(event ->{
+            MemberDTO member = event.getRowValue();
+            member.setPhoneNumber(event.getNewValue());
+            managemembercontroller.updateMember(member);
+        });
     }
 
     private void setUpActionColumn() {
+        actionColumn.setCellFactory(column -> new TableCell<MemberDTO,Void>(){
+            private final Button editButton = new Button("Edit");
+            private final Button deleteButton = new Button("Delete");
 
+            private final HBox buttons=new HBox(5);
+            {
+                buttons.getChildren().addAll(editButton,deleteButton);
+                editButton.setOnAction(event -> {
+                    memberTable.setEditable(true);
+
+                    nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+                    emailColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+                    phonenumberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+                    MemberDTO member=getTableView().getItems().get(getIndex());
+
+                });
+                deleteButton.setOnAction(event -> {
+                    MemberDTO member=getTableView().getItems().get(getIndex());
+
+                    try {
+                        if(managemembercontroller.hasBorrowingRecords(member)) {
+                            Alert alert = new Alert(Alert.AlertType.WARNING);
+                            alert.setTitle("Delete Member");
+                            alert.setHeaderText("Cannot Delete Member");
+                            alert.setContentText("This member has borrowing records.");
+                            alert.showAndWait();
+                        }else {
+                            if(managemembercontroller.deleteMember(member)) {
+                                memberTable.setItems(managemembercontroller.loadTable());
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Delete Member");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Member Delete Successfully.");
+                                alert.showAndWait();
+                            }
+                        }
+                    }catch (RuntimeException e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Database Error");
+                        alert.setHeaderText("Delete Failed");
+                        alert.showAndWait();
+                    }
+                });
+            }
+            @Override
+            protected void updateItem(Void item,boolean empty){
+                super.updateItem(item,empty);
+                if(empty){
+                    setGraphic(null);
+                }else {
+                    setGraphic(buttons);
+                }
+            }
+        });
 
     }
 

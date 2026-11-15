@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.MemberDTO;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import util.Hibernateutil;
 
 import java.util.List;
@@ -35,6 +36,26 @@ public class Managemembercontroller {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+
+    }
+
+    public boolean hasBorrowingRecords(MemberDTO member) {
+        return false;
+    }
+
+    public boolean deleteMember(MemberDTO member) {
+        return false;
+    }
+
+    public void updateMember(MemberDTO member) {
+
+        Session session = Hibernateutil.getSessionFactory().openSession();
+
+        String HQL = "FROM Member m WHERE m. ";
+
+        Transaction transaction = session.beginTransaction();
+
 
 
     }
