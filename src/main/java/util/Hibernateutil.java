@@ -2,6 +2,7 @@ package util;
 
 import entity.Book;
 import entity.Borrowing;
+import entity.Login;
 import entity.Member;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -19,7 +20,8 @@ public class Hibernateutil {
                     .setProperty("hibernate.hbm2ddl.auto","update")
                     .addAnnotatedClass(Book.class)
                     .addAnnotatedClass(Member.class)
-                    .addAnnotatedClass(Borrowing.class);
+                    .addAnnotatedClass(Borrowing.class)
+                    .addAnnotatedClass(Login.class);
 
             sessionFactory = configuration.buildSessionFactory();
         } catch (Throwable ex) {

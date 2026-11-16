@@ -40,7 +40,13 @@ public class Maindashboardpagecontroller {
 
 
     public void logoutOnAction(ActionEvent event) {
-        
+        Stage stage=(Stage)((Node) event.getSource()).getScene().getWindow();
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/login_page.fxml"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.show();
     }
 
     public void addBookOnActoin(ActionEvent event) {
