@@ -1,0 +1,82 @@
+.main-container {
+    -fx-background-color: #E7DDCC;
+}
+
+/* Left Panel */
+
+.left-panel {
+    -fx-background-color: #302A25;
+    -fx-padding: 30px;
+}
+
+.image-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.image-description {
+    -fx-font-size: 14px;
+    -fx-text-fill: #DDDDDD;
+}
+
+/* Right Panel */
+
+.form-panel {
+    -fx-background-color: #E7DDCC;
+    -fx-padding: 30px;
+}
+
+.form-title {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #26364D;
+}
+
+.form-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #888888;
+}
+
+/* Text Fields */
+
+.input-field {
+    -fx-pref-height: 43px;
+    -fx-background-color: white;
+    -fx-background-radius: 6px;
+    -fx-border-color: #B8A995;
+    -fx-border-radius: 6px;
+    -fx-border-width: 1.5px;
+    -fx-padding: 8px;
+    -fx-font-size: 13px;
+}
+
+.input-field:focused {
+    -fx-border-color: #087CE5;
+}
+
+/* Buttons */
+
+.primary-button {
+    -fx-pref-height: 43px;
+    -fx-background-color: #087CE5;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #0565BD;
+}
+
+.secondary-button {
+    -fx-pref-height: 38px;
+    -fx-background-color: #E8E8E8;
+    -fx-text-fill: #333333;
+    -fx-border-color: #A99C8D;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}

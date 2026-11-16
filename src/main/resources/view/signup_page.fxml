@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.login.Signuppagecontroller"
+      prefWidth="725"
+      prefHeight="515"
+      stylesheets="@../css/signup.css"
+      styleClass="main-container">
+
+    <!-- Left Panel -->
+
+    <VBox prefWidth="450"
+          alignment="CENTER"
+          spacing="25"
+          styleClass="left-panel">
+
+        <Label text="Library Management System"
+               styleClass="image-title"/>
+
+        <Label text="Manage Books | Manage Members"
+               styleClass="image-description"/>
+
+        <Label text="Build Knowledge"
+               styleClass="image-description"/>
+
+    </VBox>
+
+    <!-- Right Panel -->
+
+    <VBox prefWidth="550"
+          alignment="CENTER"
+          spacing="18"
+          styleClass="form-panel">
+
+        <VBox spacing="8">
+
+            <Label text="Create Account"
+                   styleClass="form-title"/>
+
+            <Label text="Please enter your details to continue"
+                   styleClass="form-subtitle"/>
+
+        </VBox>
+
+        <VBox spacing="12" maxWidth="320">
+
+            <TextField fx:id="txtUsername"
+                       promptText="Username"
+                       styleClass="input-field"/>
+
+            <PasswordField fx:id="txtPassword"
+                           promptText="Password"
+                           styleClass="input-field"/>
+
+            <PasswordField fx:id="txtConfirmPassword"
+                           promptText="Confirm Password"
+                           styleClass="input-field"/>
+
+            <Button text="Sign Up"
+                    onAction="#signUp"
+                    styleClass="primary-button"
+                    maxWidth="Infinity"/>
+
+            <Button text="Clear"
+                    onAction="#clearFields"
+                    styleClass="secondary-button"
+                    maxWidth="Infinity"/>
+
+            <Button text="Back to Login"
+                    onAction="#backToLogin"
+                    styleClass="primary-button"
+                    maxWidth="Infinity"/>
+
+        </VBox>
+
+    </VBox>
+
+</HBox>

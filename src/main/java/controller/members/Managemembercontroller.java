@@ -96,7 +96,7 @@ public class Managemembercontroller {
           if (member1 != null) {
               member1.setFullName(member.getFullName());
               member1.setEmail(member.getEmail());
-              member1.setPhoneNumber(member1.getPhoneNumber());
+              member1.setPhoneNumber(member.getPhoneNumber());
               transaction.commit();
               return true;
           }
